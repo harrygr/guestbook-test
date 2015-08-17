@@ -13,13 +13,8 @@ var vm = new Vue({
 			email: '',
 			comment: ''
 		},
-		posts:[
-		{
-			name: 'JB',
-			email: 'js@e.com',
-			comment: 'Hello'
-		}
-		]
+		posts:[],
+		errors: {}
 
 	},
 
@@ -41,16 +36,18 @@ var vm = new Vue({
 		{
 			e.preventDefault();
 
-			
+			this.errors = {};
 
+			this.$http.post('/api/posts', this.newPost).success(function(data, status, request)
+				{
+					this.newPost = { name: '', email: '', comment: '' };
+				}).error(function(data, status, request)
+				{
+					console.log("there was an error!");
+					console.log(data);
+					this.errors = data;
+				});
 
-			this.$http.post('/api/posts', this.newPost, function(response)
-			{
-				
-
-
-			});
-			this.newPost = { name: '', email: '', comment: '' };
 			this.fetchPosts();
 
 		}

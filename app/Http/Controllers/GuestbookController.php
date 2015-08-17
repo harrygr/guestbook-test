@@ -27,6 +27,7 @@ class GuestbookController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, Post::$rules);
         Post::create($request->all());
     }
 
